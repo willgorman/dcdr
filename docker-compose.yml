@@ -2,33 +2,33 @@ version: '2'
 services:
   dcdr_watch:
     environment:
-      - "CONSUL_HTTP_ADDR=consul:8500"
+      - "CONSUL_HTTP_ADDR=host.docker.internal:8500"
     build:
       dockerfile: Dockerfile
       context: .
     command: watch
-    links:
-      - consul:consul
+    # links:
+    #   - consul:consul
     image: dcdr
   dcdr_server:
     environment:
-      - "CONSUL_HTTP_ADDR=consul:8500"
+      - "CONSUL_HTTP_ADDR=host.docker.internal:8500"
     build:
       dockerfile: Dockerfile
       context: .
     command: server
     ports:
-      - "9000:9000"
-    links:
-      - consul:consul
-    depends_on:
-      - consul
+      - "9900:9000"
+    # links:
+    #   - consul:consul
+    # depends_on:
+    #   - consul
     image: dcdr
-  consul:
-    image: progrium/consul:latest
-    ports:
-      - "9400:8400"
-      - "9500:8500"
-      - "9600:53/udp"
-    hostname: node1
-    command: -server -bootstrap
+  # consul:
+  #   image: progrium/consul:latest
+  #   ports:
+  #     - "9400:8400"
+  #     - "9500:8500"
+  #     - "9600:53/udp"
+  #   hostname: node1
+  #   command: -server -bootstrap
